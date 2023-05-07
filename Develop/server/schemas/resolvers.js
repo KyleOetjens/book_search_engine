@@ -4,10 +4,8 @@ const { signToken } = require('../utils/auth')
 
 const resolvers = {
     Query: {
-        user: async (parent, { username }) => {
-            return User.findOne({ username })
-        },
-        me: async (parent, args, context) => {
+
+        user: async (parent, args, context) => {
             if (context.user) {
                 return User.findOne({ _id: context.user._id });
             }
@@ -18,7 +16,7 @@ const resolvers = {
         createUser: async (parent, { username, email, password }) => {
             const user = await User.create({ username, email, password });
             const token = signToken(user);
-            return { token, user };
+            return { token, user };//can say return Auth
         },
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
@@ -37,24 +35,39 @@ const resolvers = {
 
             return { token, user };
         },
-        saveBook: async (parent, { bookId, body }, context) => {
-            console.log(user);
+        saveBook: async (parent, { bookData }, context) => {
             if (context.user) {
-              const thought = await Book.create({
-                bookId,
-                title: body.title,
-                description: body.description
-              });
-      
-              await User.findOneAndUpdate(
-                { _id: context.user._id },
-                { $addToSet: { savedBooks: bookId,title,description } }
-              );
-      
-              return thought;
+             const user = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { savedBooks: bookData } },
+                    {
+                        runValidators: true,
+                        new: true
+                    }
+                );
+
+                return user
             }
             throw new AuthenticationError('You need to be logged in!');
-          },
+        },
+        removeBook: async (parent, { bookId }, context) => {
+            if (context.user) {
+                const user = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    {
+                        $pull: {
+                            savedBooks: {
+                                bookId
+                            },
+
+                        }
+                    },
+                    { new: true }
+                )
+                return user
+            }
+            throw new AuthenticationError('You need to be logged in!');
+        }
     },
 }
 module.exports = resolvers;
