@@ -14,13 +14,15 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-  const { loading, userData } = useQuery(QUERY_ME);
+  const [userData, setUserData] = useState({});
 
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
-  
+  const { loading, data } = useQuery(QUERY_ME);
   //const userData = data?.tech || [];
-  
+  const userBookData = (data) => {
+    setUserData(data);
+  }
   // useEffect(() => {
   //   const getUserData = async () => {
   //     try {
