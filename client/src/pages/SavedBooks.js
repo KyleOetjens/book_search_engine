@@ -12,15 +12,15 @@ import {
 import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
+import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
- 
+
 
   // use this to determine if `useEffect()` hook needs to run again
 
   const { loading, data } = useQuery(QUERY_ME);
   const userData = data?.user || [];
-  console.log(userData);
   //   //const userData = data?.tech || [];
   //   // const userBookData = (data) => {
   //   //   console.log(`jere`);
@@ -52,7 +52,9 @@ const SavedBooks = () => {
   // }, [userDataLength]);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
+  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
   const handleDeleteBook = async (bookId) => {
+
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
@@ -60,16 +62,21 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook(bookId, token);
+      // const response = await deleteBook(bookId, token);
+      const { data } = await removeBook({
+        variables: {bookId}
+      });
 
-      if (!response.ok) {
+      if (!data) {
         throw new Error('something went wrong!');
       }
 
-      const updatedUser = await response.json();
-      // setUserData(updatedUser);
+      // const updatedUser = await response.json();
+      // // setUserData(updatedUser);
       // upon success, remove book's id from localStorage
-      removeBookId(bookId);
+      removeBookId(bookId)
+      window.location.reload();
+
     } catch (err) {
       console.error(err);
     }
