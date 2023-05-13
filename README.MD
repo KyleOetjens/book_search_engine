@@ -8,7 +8,6 @@ This book search engine uses MongoDb, Express, React and Node to create a fully 
 
 - [Usage](#usage)
 - [Credits](#credits)
-- [Features](#features)
 - [Questions](#questions)
 
 
@@ -18,12 +17,7 @@ This book search engine uses MongoDb, Express, React and Node to create a fully 
 usage
 ## Credits  
 
-Credit
-
-
-## Features  
-
-Features
+Credit Meg Meyres (Tutor)
 
 
 
