@@ -20,8 +20,6 @@ usage
 Credit Meg Meyres (Tutor)
 
 
-
-
 ## Questions
 find me on github at [KyleOetjens](https://github.com/KyleOetjens)  
   
