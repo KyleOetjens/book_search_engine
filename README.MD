@@ -9,8 +9,6 @@ This book search engine uses MongoDb, Express, React and Node to create a fully 
 - [Usage](#usage)
 - [Credits](#credits)
 - [Features](#features)
-- [Contributing](#contributing)
-- [Tests](#tests)
 - [Questions](#questions)
 
 
@@ -28,14 +26,7 @@ Credit
 Features
 
 
-## Contributing  
 
-contrib
-
-
-## Tests
-
-testing
 
 ## Questions
 find me on github at [KyleOetjens](https://github.com/KyleOetjens)  
